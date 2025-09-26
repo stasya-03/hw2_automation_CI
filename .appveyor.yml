@@ -1,0 +1,19 @@
+image: Visual Studio 2019  # Windows-окружение
+
+stack: jdk 11  # JDK 11
+
+branches:
+  only:
+    - master
+
+build: off  # отключаем стандартную сборку
+
+install:
+  # Запускаем SUT (без & — в Windows используют start /B для фонового процесса)
+  - start /B java -jar artifacts\app-mbank.jar
+  # Делаем gradlew исполняемым не нужно, сразу можно запускать
+
+build_script:
+  # Запускаем автотесты
+  # Параметр headless для Selenide остаётся
+  - gradlew.bat test --info -Dselenide.headless=true
